@@ -1,4 +1,5 @@
-﻿import { IsNotEmpty } from "class-validator";
+﻿import { Transform, TransformFnParams } from "class-transformer";
+import { IsNotEmpty } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: "tb_postagens"})
@@ -7,10 +8,14 @@ export class Postagem{
     @PrimaryGeneratedColumn() // Chave Primária e Auto_Increment
     id: number;
 
+    // Validação para espaços em branco
+    @Transform(({ value }: TransformFnParams) => value?.trim()) 
     @IsNotEmpty()
     @Column({length: 100, nullable: false})
     titulo: string;
 
+    // Validação para espaços em branco
+    @Transform(({ value }: TransformFnParams) => value?.trim())
     @IsNotEmpty()
     @Column({length: 1000, nullable: false})
     texto: string;
