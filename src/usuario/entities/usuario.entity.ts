@@ -6,24 +6,24 @@ import { Postagem } from "../../postagem/entities/postagem.entity"
 export class Usuario {
 
     @PrimaryGeneratedColumn() 
-    public id: number
+    id: number
 
     @IsNotEmpty()
     @Column({length: 255, nullable: false}) 
-    public nome: string
+    nome: string
 
     @IsEmail()
     @IsNotEmpty()
     @Column({length: 255, nullable: false })
-    public usuario: string
+    usuario: string
 
     @MinLength(8)
     @IsNotEmpty()
     @Column({length: 255, nullable: false }) 
-    public senha: string
+    senha: string
 
     @Column({length: 5000 }) 
-    public foto: string
+    foto: string
 
     @OneToMany(() => Postagem, (postagem) => postagem.usuario)
     postagem: Postagem[]
