@@ -15,7 +15,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
       imports: [
         TypeOrmModule.forRoot({
           type: 'sqlite',
-          database: 'db_blogpessoal_test.db',
+          database: ':memory:',
           entities: [__dirname + "./../src/**/entities/*.entity.ts"],
           synchronize: true,
           dropSchema: true,
@@ -70,8 +70,6 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
 
     token = resposta.body.token;
 
-    console.log("Token: " + token);
-
   })
 
   it("04 - Deve Listar todos os Usuários", async () => {
@@ -88,16 +86,24 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
     .set('Authorization', `${token}`)
     .send({
       id: usuarioId,
-      nome: 'Geandro',
+      nome: 'Root Atualizado',
       usuario: 'root@root.com',
-      senha: 'geandro123',
+      senha: 'rootroot',
       foto: '-',
     })
     .expect(200)
     .then( resposta => {
-      expect("Geandro").toEqual(resposta.body.nome);
+      expect("Root Atualizado").toEqual(resposta.body.nome);
     })
 
+  })
+
+  it("06 - Deve Listar apenas um Usuário pelo id", async () => {
+    return request(app.getHttpServer())
+    .get(`/usuarios/${usuarioId}`)
+    .set('Authorization', `${token}`)
+    .send({})
+    .expect(200)
   })
 
 });
